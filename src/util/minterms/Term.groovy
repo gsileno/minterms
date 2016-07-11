@@ -13,7 +13,7 @@ class Term {
     }
 
     public String toString() {
-        String result = "{ "
+        String result = ""
         for (int i = 0; i < varVals.size(); i++) {
             if (varVals[i] == Value.DONTCARE)
                 result += "X";
@@ -21,9 +21,7 @@ class Term {
                 result += "1";
             else if (varVals[i] == Value.FALSE)
                 result += "0";
-            result += " ";
         }
-        result += "}"
         return result
     }
 
@@ -78,7 +76,7 @@ class Term {
     }
 
     public static Term read(Reader reader) {
-        char c = '\0';
+        int c = '\0';
         ArrayList<Value> t = new ArrayList<Value>();
         while (c != '\n' && c != -1) {
             c = reader.read();

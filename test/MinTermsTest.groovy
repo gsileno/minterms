@@ -45,4 +45,28 @@ class MinTermsTest extends GroovyTestCase {
 
     }
 
+    void test3() {
+        String test = '''110110
+111110
+111111
+110111
+010101
+010100
+010110
+010111
+011111
+011101
+011100
+011110'''
+
+        def sr = new StringReader(test)
+        Formula f = Formula.read(sr)
+
+        assert (12 == f.size())
+        f.reduceToPrimeImplicants()
+        assert (2 == f.size())
+        f.reducePrimeImplicantsToSubset()
+        assert (2 == f.size())
+    }
+
 }

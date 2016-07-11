@@ -4,8 +4,8 @@ package util.minterms
 // found on http://archive.today/z73yL#selection-195.0-195.25
 
 class Formula {
-    private ArrayList<Term> termList = new ArrayList<Term>()
-    private ArrayList<Term> originalTermList
+    ArrayList<Term> termList = new ArrayList<Term>()
+    ArrayList<Term> originalTermList
 
     Formula(List<Term> termList) {
         this.termList = termList;
