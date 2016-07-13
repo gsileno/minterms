@@ -1,5 +1,5 @@
 package util.minterms
 
 public enum Value {
-    FALSE, TRUE, DONTCARE, UNKOWN
+    FALSE, TRUE, DONTCARE
 }

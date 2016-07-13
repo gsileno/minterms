@@ -1,26 +1,29 @@
 package util.minterms
 
+// Quine-McCluskey algorithm
+// found on http://archive.today/z73yL#selection-195.0-195.25
+
 class Term {
 
     private ArrayList<Value> varVals = []
 
-    public Term(Value[] varVals) {
-        this.varVals = varVals;
+    Term(Value[] varVals) {
+        this.varVals = varVals
     }
 
-    public int getNumVars() {
-        return varVals.size();
+    int getNumVars() {
+        return varVals.size()
     }
 
-    public String toString() {
+    String toString() {
         String result = ""
         for (int i = 0; i < varVals.size(); i++) {
             if (varVals[i] == Value.DONTCARE)
-                result += "X";
+                result += "X"
             else if (varVals[i] == Value.TRUE)
-                result += "1";
+                result += "1"
             else if (varVals[i] == Value.FALSE)
-                result += "0";
+                result += "0"
         }
         return result
     }
@@ -29,71 +32,73 @@ class Term {
     // (A AND B) OR (A AND not B)
     // can be simplified to
     // A, with B DONTCARE
-    public Term combine(Term term) {
+    Term combine(Term term) {
         int diffVarNum = -1; /* The position where they differ */
         for (int i = 0; i < varVals.size(); i++) {
             if (this.varVals[i] != term.varVals[i]) {
                 if (diffVarNum == -1) {
-                    diffVarNum = i;
+                    diffVarNum = i
                 } else {
                     // They're different in at least two places
-                    return null;
+                    return null
                 }
             }
         }
         if (diffVarNum == -1) {
             // They're identical
-            return null;
+            return null
         }
-        Value[] resultVars = varVals.clone();
-        resultVars[diffVarNum] = Value.DONTCARE;
-        return new Term(resultVars);
+        Value[] resultVars = (Value[]) varVals.clone()
+        resultVars[diffVarNum] = Value.DONTCARE
+        return new Term(resultVars)
     }
 
     // count the numbers of variables with a certain value
-    public int countValues(Value value) {
-        int result = 0;
+    int countValues(Value value) {
+        int result = 0
         for (int i = 0; i < varVals.size(); i++) {
             if (varVals[i] == value) {
-                result++;
+                result++
             }
         }
-        return result;
+        return result
     }
 
     // check if two lists are equals
-    public boolean equals(Term o) {
-        return varVals.equals(o.varVals);
+    boolean equals(Term o) {
+        return varVals.equals(o.varVals)
     }
 
     boolean implies(Term term) {
         for (int i = 0; i < varVals.size(); i++) {
             if (varVals[i] != Value.DONTCARE && varVals[i] != term.varVals[i]) {
-                return false;
+                return false
             }
         }
-        return true;
+        return true
     }
 
-    public static Term read(Reader reader) {
-        int c = '\0';
-        ArrayList<Value> t = new ArrayList<Value>();
-        while (c != '\n' && c != -1) {
-            c = reader.read();
+    static Term read(String stringTerm) {
+        ArrayList<Value> t = new ArrayList<Value>()
+        for (c in stringTerm) {
             if (c == '0') {
-                t.add(Value.FALSE);
+                t.add(Value.FALSE)
             } else if (c == '1') {
-                t.add(Value.TRUE);
+                t.add(Value.TRUE)
+            } else if (c == 'C') { // case conflict in the rule
+                return null
+            } else {
+                throw new RuntimeException()
             }
         }
         if (t.size() > 0) {
-            Value[] resultValues = new Value[t.size()];
+            Value[] resultValues = new Value[t.size()]
             for (int i = 0; i < t.size(); i++) {
-                resultValues[i] = t.get(i);
+                resultValues[i] = t.get(i)
             }
-            return new Term(resultValues);
+            return new Term(resultValues)
         } else {
-            return null;
+            return null
         }
     }
 }
