@@ -85,6 +85,8 @@ class Term {
                 t.add(Value.FALSE)
             } else if (c == '1') {
                 t.add(Value.TRUE)
+            } else if (c == 'X') { // case conflict in the rule
+                t.add(Value.DONTCARE)
             } else if (c == 'C') { // case conflict in the rule
                 return null
             } else {
