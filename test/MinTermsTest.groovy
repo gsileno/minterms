@@ -1,4 +1,4 @@
-package util.minterms
+import util.minterms.Formula
 
 class MinTermsTest extends GroovyTestCase {
 
