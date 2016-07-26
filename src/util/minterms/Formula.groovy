@@ -27,6 +27,8 @@ class Formula {
     void reduceToPrimeImplicants() {
         originalTermList = new ArrayList<Term>(termList)
 
+        if (termList.size() == 0) return
+
         // create a double term table
         // where to count the number of dontcares and true in the formula
         int numVars = termList.get(0).getNumVars()
@@ -140,6 +142,10 @@ class Formula {
         // create implies table
         int numPrimeImplicants = termList.size()
         int numOriginalTerms = originalTermList.size()
+
+        if (numOriginalTerms == 0) return
+        if (numPrimeImplicants == 0) return
+
         boolean[][] table = new boolean[numPrimeImplicants][numOriginalTerms]
         for (int impl = 0; impl < numPrimeImplicants; impl++) {
             for (int term = 0; term < numOriginalTerms; term++) {
